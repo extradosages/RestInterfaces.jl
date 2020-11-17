@@ -83,7 +83,7 @@ router = Router(
 )
 
 # Stack middleware and serve on localhost:8081
-router(route) |> handle_errors |> HTTP.serve
+route(router) |> handle_errors |> HTTP.serve
 ```
 
 A client might then see something like...
