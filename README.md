@@ -53,7 +53,7 @@ function Resources.process(::Get, ::Hello, name::String)
   if name === "Tokyo"
     conflict!("Cannot greet Tokyo; too far away")
   end
-  return "Hello, $(name)!"
+  return "Hello, $(name)!\n"
 end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
