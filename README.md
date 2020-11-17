@@ -79,4 +79,4 @@ Hello, Lagos!
 ```
 ## Alternatives
 
-- [Mux.jl](https://github.com/JuliaWeb/Mux.jl) is a lightweight layer on top of HTTP.jl that can be used to accomplish the same things that Rest can accomplish. It is more general and more mature than Rest is, but I am personally not a fan of the API.
+- [Mux.jl](https://github.com/JuliaWeb/Mux.jl) is a lightweight layer on top of HTTP.jl that can be used to accomplish the same things that Rest.jl can accomplish. It is more general and more mature than Rest.jl is, but I am personally not a fan of the API.
