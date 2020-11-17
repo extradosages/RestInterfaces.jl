@@ -69,7 +69,8 @@ end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
-##
+## Server
+
 # Extend this method so that the router can match requests to this resource
 Resources.path(::Hello) = "/hello"
 
