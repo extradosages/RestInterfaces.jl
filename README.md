@@ -57,14 +57,20 @@ Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greet
 Resources.path(::Hello) = "/hello"
 
 # Build a router which register routes and will convert Requests into the app domain
-router = Router("", [Hello() => Post(), Hello() => Get()])
+router = Router(
+  "/",
+  [
+    Hello() => Post(), 
+    Hello() => Get()
+  ]
+)
 
 # Serve on localhost:8081
 router |> route |> HTTP.serve
 ```
 
 Then you'll see, in another thread, by the majesty of science...
-```
+```bash
 bash-3.2$ curl "localhost:8081/hello"
 Hello, World!
 bash-3.2$ curl "localhost:8081/hello?name=Boston"
