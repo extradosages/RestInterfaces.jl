@@ -86,19 +86,33 @@ router = Router(
 router(route) |> handle_errors |> HTTP.serve
 ```
 
-Then you'll see, in another thread, by the majesty of science...
+A client might then see something like...
 ```bash
-$ curl "localhost:8081/hello"
+$ curl -i -X GET "localhost:8081/hello"
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+
 Hello, World!
-$ curl -X POST --data '{"name":"Boston"}' "localhost:8081/hello"
+$ curl -i -X POST --data '{"name":"Boston"}' "localhost:8081/hello"
+HTTP/1.1 201 Created
+Transfer-Encoding: chunked
+
 $ curl "localhost:8081/hello"
 Hello, Boston!
 $ curl "localhost:8081/hello?name=Lagos"
 Hello, Lagos!
 $ curl "localhost:8081/hello?name=Tbilisi"
 გამარჯობა, თბილისი!
-$ curl "localhost:8081/hello?name=Tokyo"
+$ curl -i "localhost:8081/hello?name=Tokyo"
+HTTP/1.1 422 Unprocessable Entity
+Transfer-Encoding: chunked
+
 422 Unprocessable Entity - Cannot greet Tokyo; ignorant of Japanese
+$ curl -i -X DELETE "localhost:8081/hello"
+HTTP/1.1 405 Method Not Allowed
+Transfer-Encoding: chunked
+
+405 Method Not Allowed - DELETE not allowed for path
 ```
 ## Alternatives
 
