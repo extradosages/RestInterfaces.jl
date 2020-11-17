@@ -29,12 +29,12 @@ using Rest.Resources: Resource
 # Utilities for extracting information from HTTP.Requests
 using Rest.Util: json_payload, query_parameters
 
-# Mutable state -- a fake backend
+# Mutable state-- a fake backend
 default_name = "World"
 
 # Implement the `Resource` interface by subtyping `Resource` and extending
 # `deserialize`, `process`, and `serialize` for the specialized type
-# = Hello
+# --- Hello
 
 struct Hello <: Resource end
 
@@ -69,7 +69,7 @@ end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
-# =
+# ---
 # Extend this method so that the router can match requests to this resource
 Resources.path(::Hello) = "/hello"
 
