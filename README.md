@@ -15,10 +15,10 @@ The following is an example of a small Hello, World! server.
 
 ```julia
 using HTTP
-# HTTP Error-themed exceptions can be found here; these acheive a special synergy
+# HttpError-themed exceptions can be found here; these acheive a special synergy
 # with the error-handling middleware we're using below
 using Rest.HttpErrors: unprocessable_entity!
-# As one might have guessed, abstractions over HTTP Methods
+# As one might have guessed, abstractions over HttpMethods
 using Rest.HttpMethods: Get, Post
 # Several pre-made middleware functions can be found here
 # This one converts HttpErrors into Http.Responses
@@ -37,8 +37,8 @@ default_name = "World"
 
 ## `Hello` resource
 
-# Implement the `Resource` interface by subtyping `Resource` and extending
-# `deserialize`, `process`, and `serialize` for and HttpMethod and the
+# Implement the `Resource` interface by subtyping `Resources.Resource` and extending
+# `deserialize`, `process`, and `serialize` for an HttpMethod and the
 # specialized resource type
 struct Hello <: Resource end
 
