@@ -12,12 +12,21 @@ The following is an example of a minimal Hello, World! server.
 
 ```julia
 using HTTP
+# HttpError-themed exceptions can be found here. These acheive a special synergy
+# with the error-handling middleware we're using below
 using Rest.HttpErrors: unprocessable_entity!
+# As one might have guessed, abstractions over Http Methods
 using Rest.HttpMethods: Get, Post
+# Several pre-made middleware functions can be found here.
+# This one converts HttpErrors into Http.Responses
 using Rest.Middleware: handle_errors
+# Composeable routers with pattern-matching facilities.
 using Rest.Middleware.Routers: Router, route
+# Resource abstractions
 using Rest.Resources
+# THE Resource abstraction
 using Rest.Resources: Resource
+# Utilities for extracting information from HTTP.Requests
 using Rest.Util: json_payload, query_parameters
 
 # Implement the `Resource` interface by subtyping `Resource` and implementing specialized
@@ -50,7 +59,7 @@ end
 
 function Resources.process(::Get, ::Hello, name::String)
   if name === "Tokyo"
-    unprocessable_entity!("Cannot greet Tokyo; ignorant of Japanese")
+    unprocessable_entity!("Cannot greet Tokyo; ignorant of Japanese\n")
   end
   if name === "Tbilisi"
     return "გამარჯობა, თბილისი!"
@@ -86,6 +95,10 @@ $ curl "localhost:8081/hello"
 Hello, Boston!
 $ curl "localhost:8081/hello?name=Lagos"
 Hello, Lagos!
+$ curl "localhost:8081/hello?name=Tbilisi"
+გამარჯობა, თბილისი!
+$ curl "localhost:8081/hello?name=Tokyo"
+422 Unprocessable Entity - Cannot greet Tokyo; ignorant of Japanese
 ```
 ## Alternatives
 
