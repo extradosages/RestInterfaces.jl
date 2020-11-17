@@ -1,11 +1,11 @@
-# Rest.jl
+# RestApis.jl
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## Overview
 This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs that felt Julia-idiomatic. It sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
-Rest.jl offers a collection of facilities for designing REST-oriented HTTP.jl server middleware. These include:
+RestApis.jl offers a collection of facilities for designing REST-oriented HTTP.jl server middleware. These include:
 - A server resource interface with isolates deserialization, processing, and re-serialization of requests into responses
 - Pattern-matching routers which handle 405s
 - Application-layer Http errors and middleware to transform them into responses with the appropriate statuses
@@ -17,20 +17,20 @@ The following is an example of a small Hello, World! server.
 using HTTP
 # HttpError-themed exceptions can be found here; these acheive a special synergy
 # with the error-handling middleware we're using below
-using Rest.HttpErrors: unprocessable_entity!
+using RestApis.HttpErrors: unprocessable_entity!
 # As one might have guessed, abstractions over HttpMethods
-using Rest.HttpMethods: Get, Post
+using RestApis.HttpMethods: Get, Post
 # Several pre-made middleware functions can be found here
 # This one converts HttpErrors into Http.Responses
-using Rest.Middleware: handle_errors
+using RestApis.Middleware: handle_errors
 # Composable routers with minimal pattern-matching facilities
-using Rest.Middleware.Routers: Router, route
+using RestApis.Middleware.Routers: Router, route
 # Resource abstractions
-using Rest.Resources
+using RestApis.Resources
 # THE Resource abstraction
-using Rest.Resources: Resource
+using RestApis.Resources: Resource
 # Utilities for extracting information from HTTP.Requests
-using Rest.Util: json_payload, query_parameters
+using RestApis.Util: json_payload, query_parameters
 
 # Mutable state-- a fake backend
 default_name = "World"
@@ -121,4 +121,4 @@ Transfer-Encoding: chunked
 ```
 ## Alternatives
 
-- [Mux.jl](https://github.com/JuliaWeb/Mux.jl) is a lightweight layer on top of HTTP.jl that can be used to accomplish the same things that Rest.jl can accomplish. It is more general and more mature than Rest.jl is, but I am personally not a fan of the API.
+- [Mux.jl](https://github.com/JuliaWeb/Mux.jl) is a lightweight layer on top of HTTP.jl that can be used to accomplish the same things that RestApis.jl can accomplish. It is more general and more mature than RestApis.jl is, but I am personally not a fan of the API.
