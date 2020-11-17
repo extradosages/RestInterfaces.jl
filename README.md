@@ -32,10 +32,11 @@ using Rest.Util: json_payload, query_parameters
 # Mutable state-- a fake backend
 default_name = "World"
 
-# Implement the `Resource` interface by subtyping `Resource` and extending
-# `deserialize`, `process`, and `serialize` for the specialized type
 ## `Hello` resource
 
+# Implement the `Resource` interface by subtyping `Resource` and extending
+# `deserialize`, `process`, and `serialize` for the and HttpMethod and
+# the specialized resource type
 struct Hello <: Resource end
 
 # Post
