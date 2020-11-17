@@ -12,7 +12,6 @@ The following is an example of a minimal Hello, World server.
 
 ```julia
 using HTTP
-using Rest.HttpErrors: conflict!
 using Rest.HttpMethods: Get, Post
 using Rest.Middleware.Routers: Router, route
 using Rest.Resources
@@ -49,12 +48,7 @@ function Resources.deserialize(::Get, ::Hello, req)
         x -> get(x, "name", default_name)
 end
 
-function Resources.process(::Get, ::Hello, name::String)
-  if name === "Tokyo"
-    conflict!("Cannot greet Tokyo; too far away")
-  end
-  return "Hello, $(name)!\n"
-end
+Resources.process(::Get, ::Hello, name::String) = "Hello, $(name)!\n"
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
@@ -77,11 +71,13 @@ router |> route |> HTTP.serve
 
 Then you'll see, in another thread, by the majesty of science...
 ```bash
-bash-3.2$ curl "localhost:8081/hello"
+$ curl "localhost:8081/hello"
 Hello, World!
-bash-3.2$ curl "localhost:8081/hello?name=Boston"
+$ curl -X POST --data '{"name":"Boston"}' "localhost:8081/hello"
+$ curl "localhost:8081/hello"
 Hello, Boston!
-bash-3.2$
+$ curl "localhost:8081/hello?name=Lagos"
+Hello, Lagos!
 ```
 ## Alternatives
 
