@@ -12,7 +12,9 @@ The following is an example of a minimal Hello, World! server.
 
 ```julia
 using HTTP
+using Rest.HttpErrors: unprocessable_entity!
 using Rest.HttpMethods: Get, Post
+using Rest.Middleware: handle_errors
 using Rest.Middleware.Routers: Router, route
 using Rest.Resources
 using Rest.Resources: Resource
@@ -42,11 +44,19 @@ Resources.serialize(::Post, ::Hello, ::Nothing) = HTTP.Response(201);
 # Get
 
 function Resources.deserialize(::Get, ::Hello, req)
-      global default_name
-      return query_parameters(req) |> x -> get(x, "name", default_name)
+  global default_name
+  return query_parameters(req) |> x -> get(x, "name", default_name)
 end
 
-Resources.process(::Get, ::Hello, name::String) = "Hello, $(name)!\n"
+function Resources.process(::Get, ::Hello, name::String)
+  if name === "Tokyo"
+    unprocessable_entity!("Cannot greet Tokyo; ignorant of Japanese")
+  end
+  if name === "Tbilisi"
+    return "გამარჯობა, თბილისი!"
+  end
+  return "Hello, $(name)!\n"
+end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
@@ -63,8 +73,8 @@ router = Router(
   ]
 )
 
-# Serve on localhost:8081
-router |> route |> HTTP.serve
+# Stack middleware and serve on localhost:8081
+router(route) |> handle_errors |> HTTP.serve
 ```
 
 Then you'll see, in another thread, by the majesty of science...
