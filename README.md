@@ -29,14 +29,14 @@ using Rest.Resources: Resource
 # Utilities for extracting information from HTTP.Requests
 using Rest.Util: json_payload, query_parameters
 
+# Mutable state -- a fake backend
+default_name = "World"
+
 # Implement the `Resource` interface by subtyping `Resource` and implementing specialized
 # methods for `path`, `deserialize`, `process`, and `serialize`.
 # = Hello
 
 struct Hello <: Resource end
-
-# Mutable state
-default_name = "World"
 
 # Post
 
