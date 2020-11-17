@@ -34,7 +34,7 @@ default_name = "World"
 
 # Implement the `Resource` interface by subtyping `Resource` and extending
 # `deserialize`, `process`, and `serialize` for the specialized type
-# === Hello
+## `Hello` resource
 
 struct Hello <: Resource end
 
@@ -69,7 +69,7 @@ end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
-# ===
+##
 # Extend this method so that the router can match requests to this resource
 Resources.path(::Hello) = "/hello"
 
