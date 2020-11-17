@@ -12,7 +12,7 @@ The following is an example of a minimal Hello, World! server.
 
 ```julia
 using HTTP
-# HTTP Error-themed exceptions can be found here; These acheive a special synergy
+# HTTP Error-themed exceptions can be found here; these acheive a special synergy
 # with the error-handling middleware we're using below
 using Rest.HttpErrors: unprocessable_entity!
 # As one might have guessed, abstractions over HTTP Methods
@@ -34,7 +34,7 @@ default_name = "World"
 
 # Implement the `Resource` interface by subtyping `Resource` and extending
 # `deserialize`, `process`, and `serialize` for the specialized type
-# --- Hello
+# === Hello
 
 struct Hello <: Resource end
 
@@ -69,7 +69,7 @@ end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
-# ---
+# ===
 # Extend this method so that the router can match requests to this resource
 Resources.path(::Hello) = "/hello"
 
