@@ -8,7 +8,7 @@ This is a Julia library for implementing basic REST APIs. It was created to prov
 This library sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
 ## A Minimal Example
-The following is an example of a minimal Hello, World server.
+The following is an example of a minimal Hello, World! server.
 
 ```julia
 using HTTP
@@ -54,7 +54,7 @@ Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greet
 # Extend this method so that the router can match requests to this resource
 Resources.path(::Hello) = "/hello"
 
-# Build a router which register routes and will convert Requests into the app domain
+# Register routes to a router
 router = Router(
   "/",
   [
