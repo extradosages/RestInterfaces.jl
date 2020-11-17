@@ -20,7 +20,7 @@ using Rest.HttpMethods: Get, Post
 # Several pre-made middleware functions can be found here.
 # This one converts HttpErrors into Http.Responses
 using Rest.Middleware: handle_errors
-# Composeable routers with pattern-matching facilities.
+# Composable routers with minimal pattern-matching facilities.
 using Rest.Middleware.Routers: Router, route
 # Resource abstractions
 using Rest.Resources
