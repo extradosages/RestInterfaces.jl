@@ -75,7 +75,7 @@ Resources.path(::Hello) = "/hello"
 
 # Register routes to a router
 router = Router(
-  "/",
+  "",
   [
     Hello() => Post(), 
     Hello() => Get(),
