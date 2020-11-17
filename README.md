@@ -3,7 +3,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## Overview
-This is a Julia library for implementing basic REST APIs. It was created to provide a style of programming these APIs that felt idiomatic to Julia.
+This is a Julia library for implementing basic REST APIs. It was created to provide a style of programming these APIs that felt Julia-idiomatic.
 
 This library sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
