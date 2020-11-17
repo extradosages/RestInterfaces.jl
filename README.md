@@ -12,7 +12,8 @@ The following is an example of a minimal Hello, World server.
 
 ```julia
 using HTTP
-using Rest.HttpMethods: Get
+using Rest.HttpErrors: conflict!
+using Rest.HttpMethods: Get, Post
 using Rest.Middleware.Routers: Router, route
 using Rest.Resources
 using Rest.Resources: Resource
@@ -48,7 +49,12 @@ function Resources.deserialize(::Get, ::Hello, req)
         x -> get(x, "name", default_name)
 end
 
-Resources.process(::Get, ::Hello, name::String) = "Hello, $(name)!"
+function Resources.process(::Get, ::Hello, name::String)
+  if name === "Tokyo"
+    conflict!("Cannot greet Tokyo; too far away")
+  end
+  return "Hello, $(name)!"
+end
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
@@ -61,7 +67,7 @@ router = Router(
   "/",
   [
     Hello() => Post(), 
-    Hello() => Get()
+    Hello() => Get(),
   ]
 )
 
