@@ -3,9 +3,12 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## Overview
-This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs that felt Julia-idiomatic.
+This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs that felt Julia-idiomatic. It sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
-This library sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
+Rest.jl offers a collection of facilities for designing REST-oriented HTTP.jl server middleware. These include:
+- A server resource interface with isolates deserialization, processing, and re-serialization of requests into responses
+- Pattern-matching routers which handle 405s
+- Application-layer Http errors and middleware to transform them into responses with the appropriate statuses
 
 ## An Example
 The following is an example of a small Hello, World! server.
