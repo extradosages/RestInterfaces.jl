@@ -12,15 +12,15 @@ The following is an example of a minimal Hello, World! server.
 
 ```julia
 using HTTP
-# HttpError-themed exceptions can be found here. These acheive a special synergy
+# HTTP Error-themed exceptions can be found here; These acheive a special synergy
 # with the error-handling middleware we're using below
 using Rest.HttpErrors: unprocessable_entity!
-# As one might have guessed, abstractions over Http Methods
+# As one might have guessed, abstractions over HTTP Methods
 using Rest.HttpMethods: Get, Post
-# Several pre-made middleware functions can be found here.
+# Several pre-made middleware functions can be found here
 # This one converts HttpErrors into Http.Responses
 using Rest.Middleware: handle_errors
-# Composable routers with minimal pattern-matching facilities.
+# Composable routers with minimal pattern-matching facilities
 using Rest.Middleware.Routers: Router, route
 # Resource abstractions
 using Rest.Resources
