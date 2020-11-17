@@ -29,8 +29,7 @@ default_name = "World"
 
 # Post
 
-Resources.deserialize(::Post, ::Hello, req) = json_payload(req) |>
-  x -> x[:name]
+Resources.deserialize(::Post, ::Hello, req) = json_payload(req) |> x -> x[:name]
 
 function Resources.process(::Post, ::Hello, name::String)
   global default_name
@@ -44,8 +43,7 @@ Resources.serialize(::Post, ::Hello, ::Nothing) = HTTP.Response(201);
 
 function Resources.deserialize(::Get, ::Hello, req)
       global default_name
-      return query_parameters(req) |>
-        x -> get(x, "name", default_name)
+      return query_parameters(req) |> x -> get(x, "name", default_name)
 end
 
 Resources.process(::Get, ::Hello, name::String) = "Hello, $(name)!\n"
