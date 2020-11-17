@@ -20,8 +20,7 @@ using Rest.Util: json_payload, query_parameters
 
 # Implement the `Resource` interface by subtyping `Resource` and implementing specialized
 # methods for `path`, `deserialize`, `process`, and `serialize`.
-
-# Hello
+# = Hello
 
 struct Hello <: Resource end
 
@@ -29,6 +28,7 @@ struct Hello <: Resource end
 default_name = "World"
 
 # Post
+
 Resources.deserialize(::Post, ::Hello, req) = json_payload(req) |>
   x -> x[:name]
 
@@ -52,8 +52,7 @@ Resources.process(::Get, ::Hello, name::String) = "Hello, $(name)!"
 
 Resources.serialize(::Get, ::Hello, greeting::String) = HTTP.Response(200, greeting)
 
-# Post
-
+# =
 # Extend this method so that the router can match requests to this resource
 Resources.path(::Hello) = "/hello"
 
