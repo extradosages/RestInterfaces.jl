@@ -35,8 +35,8 @@ default_name = "World"
 ## `Hello` resource
 
 # Implement the `Resource` interface by subtyping `Resource` and extending
-# `deserialize`, `process`, and `serialize` for the and HttpMethod and
-# the specialized resource type
+# `deserialize`, `process`, and `serialize` for and HttpMethod and the
+# specialized resource type
 struct Hello <: Resource end
 
 # Post
