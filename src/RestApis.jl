@@ -1,9 +1,9 @@
 """
-  Rest
+  RestApis
 
 Library for building REST APIs.
 """
-module Rest
+module RestApis
 
 include("./http-errors.jl")
 include("./http-methods.jl")
