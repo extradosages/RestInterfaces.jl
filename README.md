@@ -7,8 +7,8 @@ This is a lightweight Julia library for implementing basic REST APIs. It was cre
 
 This library sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
-## A Minimal Example
-The following is an example of a minimal Hello, World! server.
+## An Example
+The following is an example of a small Hello, World! server.
 
 ```julia
 using HTTP
