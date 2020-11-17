@@ -3,7 +3,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## Overview
-This is a Julia library for implementing basic REST APIs. It was created to provide a style of programming these APIs that felt idiomatic to Julia.
+This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs that felt Julia-idiomatic.
 
 This library sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
@@ -12,22 +12,31 @@ The following is an example of a minimal Hello, World! server.
 
 ```julia
 using HTTP
+# HttpError-themed exceptions can be found here. These acheive a special synergy
+# with the error-handling middleware we're using below
 using Rest.HttpErrors: unprocessable_entity!
+# As one might have guessed, abstractions over Http Methods
 using Rest.HttpMethods: Get, Post
+# Several pre-made middleware functions can be found here.
+# This one converts HttpErrors into Http.Responses
 using Rest.Middleware: handle_errors
+# Composable routers with minimal pattern-matching facilities.
 using Rest.Middleware.Routers: Router, route
+# Resource abstractions
 using Rest.Resources
+# THE Resource abstraction
 using Rest.Resources: Resource
+# Utilities for extracting information from HTTP.Requests
 using Rest.Util: json_payload, query_parameters
 
-# Implement the `Resource` interface by subtyping `Resource` and implementing specialized
-# methods for `path`, `deserialize`, `process`, and `serialize`.
+# Mutable state -- a fake backend
+default_name = "World"
+
+# Implement the `Resource` interface by subtyping `Resource` and extending
+# `deserialize`, `process`, and `serialize` for the specialized type
 # = Hello
 
 struct Hello <: Resource end
-
-# Mutable state
-default_name = "World"
 
 # Post
 
@@ -50,7 +59,7 @@ end
 
 function Resources.process(::Get, ::Hello, name::String)
   if name === "Tokyo"
-    unprocessable_entity!("Cannot greet Tokyo; ignorant of Japanese")
+    unprocessable_entity!("Cannot greet Tokyo; ignorant of Japanese\n")
   end
   if name === "Tbilisi"
     return "გამარჯობა, თბილისი!"
@@ -66,7 +75,7 @@ Resources.path(::Hello) = "/hello"
 
 # Register routes to a router
 router = Router(
-  "/",
+  "",
   [
     Hello() => Post(), 
     Hello() => Get(),
@@ -77,15 +86,33 @@ router = Router(
 router(route) |> handle_errors |> HTTP.serve
 ```
 
-Then you'll see, in another thread, by the majesty of science...
+A client might then see something like...
 ```bash
-$ curl "localhost:8081/hello"
+$ curl -i -X GET "localhost:8081/hello"
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+
 Hello, World!
-$ curl -X POST --data '{"name":"Boston"}' "localhost:8081/hello"
+$ curl -i -X POST --data '{"name":"Boston"}' "localhost:8081/hello"
+HTTP/1.1 201 Created
+Transfer-Encoding: chunked
+
 $ curl "localhost:8081/hello"
 Hello, Boston!
 $ curl "localhost:8081/hello?name=Lagos"
 Hello, Lagos!
+$ curl "localhost:8081/hello?name=Tbilisi"
+გამარჯობა, თბილისი!
+$ curl -i "localhost:8081/hello?name=Tokyo"
+HTTP/1.1 422 Unprocessable Entity
+Transfer-Encoding: chunked
+
+422 Unprocessable Entity - Cannot greet Tokyo; ignorant of Japanese
+$ curl -i -X DELETE "localhost:8081/hello"
+HTTP/1.1 405 Method Not Allowed
+Transfer-Encoding: chunked
+
+405 Method Not Allowed - DELETE not allowed for path
 ```
 ## Alternatives
 
