@@ -6,11 +6,6 @@ _"rest-a-pis"_
 ## Overview
 This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs that felt Julia-idiomatic. It sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
-RestApis.jl offers a collection of facilities for designing REST-oriented HTTP.jl server middleware. These include:
-- A server resource interface with isolates deserialization, processing, and re-serialization of requests into responses
-- Pattern-matching routers which handle 405s
-- Application-layer Http errors and middleware to transform them into responses with the appropriate statuses
-
 ## An Example
 The following is an example of a small Hello, World! server.
 
