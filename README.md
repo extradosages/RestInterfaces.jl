@@ -13,7 +13,7 @@ The following is an example of a small Hello, World! server.
 using HTTP
 # HttpError-themed exceptions can be found here; these acheive a special synergy
 # with the error-handling middleware we're using below
-using RestApis.HttpErrors: unprocessable_entity!
+using RestApis.HttpErrors: unprocessable_entity
 # As one might have guessed, abstractions over HttpMethods
 using RestApis.HttpMethods: Get, Post
 # Several pre-made middleware functions can be found here
@@ -59,7 +59,7 @@ end
 
 function Resources.process(::Get, ::Hello, name::String)
   if name === "Tokyo"
-    unprocessable_entity!("Cannot greet Tokyo; ignorant of Japanese\n")
+    unprocessable_entity("Cannot greet Tokyo; ignorant of Japanese\n")
   end
   if name === "Tbilisi"
     return "გამარჯობა, თბილისი!"

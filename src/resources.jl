@@ -8,7 +8,7 @@ module Resources
 using HTTP
 using HTTP: Response, Request, Router
 
-using ..HttpErrors: HttpError, bad_request!, internal_server_error!, method_not_allowed!
+using ..HttpErrors: HttpError, bad_request, internal_server_error, method_not_allowed
 using ..HttpMethods: HttpMethod
 using ..HttpMethods
 
@@ -124,17 +124,17 @@ function handle(method::HttpMethod, resource::Resource, req::Request)
     # TODO: Determine if DeserializeError is useful
     """
     if isa(err, DeserializeError)
-      bad_request!(err.msg)
+      bad_request(err.msg)
     elseif isa(err, HttpError) 
       rethrow(err)
     else
-      sprint(showerror, err) |> internal_server_error!
+      sprint(showerror, err) |> internal_server_error
     end
     """
     if isa(err, HttpError)
       rethrow(err)
     else
-      sprint(showerror, err) |> bad_request!
+      sprint(showerror, err) |> bad_request
     end
   end
   
@@ -144,7 +144,7 @@ function handle(method::HttpMethod, resource::Resource, req::Request)
     if isa(err, HttpError)
       rethrow(err)
     else
-      sprint(showerror, err) |> internal_server_error!
+      sprint(showerror, err) |> internal_server_error
     end
   end
 
@@ -152,7 +152,7 @@ function handle(method::HttpMethod, resource::Resource, req::Request)
     response = serialize(method, resource, proc_result)
 
     if !isa(response, Response)
-      internal_server_error!(
+      internal_server_error(
         "Serialization did not produce an `HTTP.Response`; check method implementation"
       )
     end
@@ -162,7 +162,7 @@ function handle(method::HttpMethod, resource::Resource, req::Request)
     if isa(err, HttpError)
       rethrow(err)
     else
-      sprint(showerror, err) |> internal_server_error!
+      sprint(showerror, err) |> internal_server_error
     end
   end
 end

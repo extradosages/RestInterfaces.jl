@@ -106,7 +106,7 @@ using HTTP.URIs: URI, splitpath
 
 using ..Resources
 using ..Resources: Resource, path
-using ..HttpErrors: method_not_allowed!, not_found!
+using ..HttpErrors: method_not_allowed, not_found
 using ..HttpMethods: HttpMethod, http_method
 
 # Router
@@ -144,12 +144,12 @@ function route(router::Router, req::Request)
 
   potential_routes = filter(y -> _match(y |> first |> path, req_path), router.routes)
   if isempty(potential_routes)
-    not_found!()
+    not_found()
   end
 
   idx = findfirst(x -> x |> last == method, potential_routes)
   if isnothing(idx)
-    method_not_allowed!("$method not allowed for $path")
+    method_not_allowed("$method not allowed for $path")
   end
 
   @inbounds resource = potential_routes[idx] |> first
