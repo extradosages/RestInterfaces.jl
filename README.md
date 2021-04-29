@@ -1,10 +1,9 @@
-# RestApis.jl 
-_"rest-a-pis"_
+# RestInterfaces.jl 
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## Overview
-This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs that felt Julia-idiomatic. It sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
+This is a lightweight Julia library for implementing basic REST APIs. It was created to provide a means of programming these APIs using interfaces. It sits on-top of the venerable [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl).
 
 ## An Example
 The following is an example of a small Hello, World! server.
@@ -13,23 +12,23 @@ The following is an example of a small Hello, World! server.
 using HTTP
 # HttpError-themed exceptions can be found here; these acheive a special synergy
 # with the error-handling middleware we're using below
-using RestApis.HttpErrors: unprocessable_entity
+using RestInterfaces.HttpErrors: unprocessable_entity
 # As one might have guessed, abstractions over HttpMethods
-using RestApis.HttpMethods: Get, Post
+using RestInterfaces.HttpMethods: Get, Post
 # Several pre-made middleware functions can be found here
 # This one converts HttpErrors into Http.Responses
-using RestApis.Middleware: handle_errors
+using RestInterfaces.Middleware: handle_errors
 # Composable routers with minimal pattern-matching facilities
-using RestApis.Middleware.Routers: Router, route
+using RestInterfaces.Middleware.Routers: Router, route
 # Resource abstractions
-using RestApis.Resources
+using RestInterfaces.Resources
 # THE Resource abstraction
-using RestApis.Resources: Resource
+using RestInterfaces.Resources: Resource
 # Utilities for extracting information from HTTP.Requests
-using RestApis.Util: json_payload, query_parameters
+using RestInterfaces.Utils: json_payload, query_parameters
 
 # Mutable state-- a fake backend
-default_name = "World"
+name_state = "World"
 
 ## `Hello` resource
 
@@ -43,8 +42,8 @@ struct Hello <: Resource end
 Resources.deserialize(::Post, ::Hello, req) = json_payload(req) |> x -> x[:name]
 
 function Resources.process(::Post, ::Hello, name::String)
-  global default_name
-  default_name = name
+  global name_state
+  name_state = name
   return nothing
 end
 
@@ -53,8 +52,8 @@ Resources.serialize(::Post, ::Hello, ::Nothing) = HTTP.Response(201);
 # Get
 
 function Resources.deserialize(::Get, ::Hello, req)
-  global default_name
-  return query_parameters(req) |> x -> get(x, "name", default_name)
+  global name_state
+  return query_parameters(req) |> x -> get(x, "name", name_state)
 end
 
 function Resources.process(::Get, ::Hello, name::String)
@@ -117,4 +116,4 @@ Transfer-Encoding: chunked
 ```
 ## Alternatives
 
-- [Mux.jl](https://github.com/JuliaWeb/Mux.jl) is a lightweight layer on top of HTTP.jl that can be used to accomplish the same things that RestApis.jl can accomplish. It is more general and more mature than RestApis.jl is, but I am personally not a fan of the API.
+- [Mux.jl](https://github.com/JuliaWeb/Mux.jl) is a lightweight layer on top of HTTP.jl that can be used to accomplish the same things that RestInterfaces.jl can accomplish. It is more general and more mature than RestInterfaces.jl is, but I am personally not a fan of the callback-style API.

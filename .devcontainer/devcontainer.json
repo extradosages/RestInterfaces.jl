@@ -3,7 +3,7 @@
     "julialang.language-julia"
   ],
   "image": "julia:1.6.1-buster",
-  "name": "RestApis.jl",
+  "name": "RestInterfaces.jl",
 	"settings": { 
 		"terminal.integrated.shell.linux": "/bin/bash"
 	},

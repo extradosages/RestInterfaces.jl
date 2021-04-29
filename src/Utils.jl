@@ -1,4 +1,4 @@
-module Util
+module Utils
 
 using HTTP: Request, payload, queryparams
 using HTTP.URIs: URI, splitpath
